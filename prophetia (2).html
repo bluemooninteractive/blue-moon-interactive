@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prophetia — Blue Moon Interactive</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#0B0710;
+    --leather:#170F1C;
+    --page:#1C1220;
+    --glow:#9B6FD1;
+    --glow-dim:#5E4680;
+    --gold:#C9A227;
+    --flame:#4CE0A0;
+    --flame-dim:#1F5C42;
+    --text:#C9C2D6;
+    --text-dim:#7C7290;
+    --rule:#332740;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--void);
+    color:var(--text);
+    font-family:'EB Garamond', serif;
+    font-size:1.12rem;
+    line-height:1.7;
+    position:relative;
+  }
+
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    pointer-events:none;
+    z-index:998;
+    opacity:0.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .gilt{
+    position:fixed; top:0; bottom:0;
+    width:16px;
+    z-index:1;
+    opacity:0.3;
+    background:repeating-linear-gradient(180deg, var(--gold) 0px, var(--gold) 2px, transparent 2px, transparent 7px);
+  }
+  .gilt.left{left:0;}
+  .gilt.right{right:0;}
+  @media (max-width:900px){ .gilt{display:none;} }
+
+  a{color:var(--glow); text-decoration:none; border-bottom:1px solid var(--rule); transition:color 0.25s ease, text-shadow 0.25s ease;}
+  a:hover{color:var(--flame); text-shadow:0 0 10px rgba(76,224,160,0.5);}
+
+  .page{
+    max-width:660px;
+    margin:0 auto;
+    padding:0 32px;
+    position:relative;
+    z-index:2;
+  }
+
+  nav{
+    position:sticky; top:0;
+    z-index:100;
+    background:linear-gradient(var(--void) 75%, transparent);
+    padding:24px 0 14px;
+  }
+  .nav-inner{
+    max-width:660px; margin:0 auto; padding:0 32px;
+    display:flex; justify-content:space-between; align-items:baseline;
+    border-bottom:1px solid var(--rule);
+    padding-bottom:14px;
+  }
+  .nav-mark{
+    font-family:'Cinzel', serif;
+    font-weight:500;
+    font-size:1.05rem;
+    color:var(--gold);
+    letter-spacing:0.04em;
+  }
+  .nav-links{display:flex; gap:26px; font-size:0.82rem;}
+  .nav-links a{border-bottom:none; color:var(--text-dim);}
+  .nav-links a:hover{color:var(--glow);}
+
+  .titlepage{
+    text-align:center;
+    padding:70px 24px 40px;
+  }
+  .kicker{
+    font-family:'EB Garamond', serif;
+    font-style:italic;
+    color:var(--text-dim);
+    font-size:1rem;
+    margin-bottom:10px;
+  }
+  .titlepage h1{
+    font-family:'Cinzel', serif;
+    font-weight:500;
+    font-size:clamp(2.6rem, 8vw, 4rem);
+    color:var(--text);
+    letter-spacing:0.02em;
+  }
+  .titlepage .status{
+    margin-top:18px;
+    font-family:'Cinzel', serif;
+    font-size:0.85rem;
+    letter-spacing:0.14em;
+    color:var(--flame);
+  }
+
+  .chapter{ padding:50px 0; }
+  .chapter h2{
+    font-family:'Cinzel', serif;
+    font-weight:500;
+    font-size:clamp(1.5rem, 4vw, 2rem);
+    margin-bottom:24px;
+    color:var(--text);
+  }
+
+  .pitch{
+    font-style:italic;
+    font-size:1.3rem;
+    line-height:1.6;
+    color:var(--text);
+    max-width:560px;
+  }
+
+  .persona{
+    padding:16px 0;
+    border-bottom:1px solid var(--rule);
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:6px 16px;
+  }
+  .persona .name{
+    font-family:'Cinzel', serif;
+    font-size:1.15rem;
+    color:var(--text);
+    white-space:nowrap;
+  }
+  .persona .role{
+    font-style:italic;
+    color:var(--text-dim);
+    font-size:0.92rem;
+    text-align:right;
+  }
+
+  .visuals-note{
+    margin-top:28px;
+    color:var(--text-dim);
+    font-style:italic;
+  }
+
+  footer{
+    text-align:center;
+    padding:50px 32px 90px;
+    font-style:italic;
+    color:var(--text-dim);
+    font-size:0.9rem;
+  }
+
+  @media (max-width:600px){
+    .titlepage{padding:50px 16px 30px;}
+    .chapter{padding:40px 0;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation:none !important; transition:none !important; }
+  }
+
+  /* ================= MAGIC CURSOR ================= */
+  body.magic-cursor-active{ cursor:none; }
+  body.magic-cursor-active a, body.magic-cursor-active button{ cursor:none; }
+
+  #cursor-dot{
+    position:fixed; top:0; left:0;
+    width:7px; height:7px; border-radius:50%;
+    background:var(--flame);
+    box-shadow:0 0 10px 2px rgba(76,224,160,0.75);
+    pointer-events:none; z-index:10000;
+    transform:translate(-50%,-50%);
+    transition:width 0.2s ease, height 0.2s ease, background 0.2s ease;
+  }
+  #cursor-ring{
+    position:fixed; top:0; left:0;
+    width:30px; height:30px; border-radius:50%;
+    border:1px solid var(--glow);
+    opacity:0.55;
+    pointer-events:none; z-index:9999;
+    transform:translate(-50%,-50%);
+    transition:width 0.25s ease, height 0.25s ease, border-color 0.25s ease, opacity 0.25s ease;
+  }
+  #cursor-dot.hover{ width:5px; height:5px; background:var(--gold); }
+  #cursor-ring.hover{ width:44px; height:44px; border-color:var(--flame); opacity:0.8; }
+</style>
+</head>
+<body>
+
+<div class="gilt left"></div>
+<div class="gilt right"></div>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-mark">BLUE MOON</div>
+    <div class="nav-links">
+      <a href="blue-moon-interactive-vitrine-dark-grimoire.html">Le grimoire</a>
+      <a href="blue-moon-interactive-vitrine-dark-grimoire.html#contact">Invoquer</a>
+    </div>
+  </div>
+</nav>
+
+<header class="titlepage">
+  <div class="kicker">Un jeu de Blue Moon Interactive</div>
+  <h1>Prophetia</h1>
+  <div class="status">SORTIE PRÉVUE · DÉBUT 2027</div>
+</header>
+
+<main class="page">
+
+  <section class="chapter">
+    <h2>Le récit</h2>
+    <p class="pitch">Une malédiction familiale la poursuit depuis sa naissance, un sort tissé par ses aïeux, transmis comme un héritage qu'on ne choisit pas. Seule, elle traverse un monde où la magie a un prix, pour tenter de la briser avant qu'il ne soit trop tard.</p>
+  </section>
+
+  <section class="chapter">
+    <h2>Ce qui vous attend</h2>
+    <div class="persona">
+      <span class="name">Exploration</span>
+      <span class="role">Un monde vu du dessus à arpenter sans guide imposé — chaque recoin cache un indice sur la malédiction.</span>
+    </div>
+    <div class="persona">
+      <span class="name">Combat</span>
+      <span class="role">Des affrontements mêlant réflexes et sorts, hérités du même don qui la maudit.</span>
+    </div>
+    <p class="visuals-note">Visuels à venir — cette page se complète au fil du développement.</p>
+  </section>
+
+</main>
+
+<footer>Prophetia — Blue Moon Interactive, 2027</footer>
+
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<script>
+  (function(){
+    var fine = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!fine || reduced) return;
+
+    document.body.classList.add('magic-cursor-active');
+    var dot = document.getElementById('cursor-dot');
+    var ring = document.getElementById('cursor-ring');
+
+    var mouseX = window.innerWidth/2, mouseY = window.innerHeight/2;
+    var ringX = mouseX, ringY = mouseY;
+
+    window.addEventListener('mousemove', function(e){
+      mouseX = e.clientX; mouseY = e.clientY;
+      dot.style.left = mouseX + 'px';
+      dot.style.top = mouseY + 'px';
+    });
+
+    function tick(){
+      ringX += (mouseX - ringX) * 0.16;
+      ringY += (mouseY - ringY) * 0.16;
+      ring.style.left = ringX + 'px';
+      ring.style.top = ringY + 'px';
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+
+    var interactive = 'a, button, input, textarea, [role="button"]';
+    document.addEventListener('mouseover', function(e){
+      if (e.target.closest(interactive)){
+        dot.classList.add('hover');
+        ring.classList.add('hover');
+      }
+    });
+    document.addEventListener('mouseout', function(e){
+      if (e.target.closest(interactive)){
+        dot.classList.remove('hover');
+        ring.classList.remove('hover');
+      }
+    });
+
+    document.addEventListener('click', function(e){
+      var burst = document.createElement('div');
+      burst.style.position = 'fixed';
+      burst.style.left = e.clientX + 'px';
+      burst.style.top = e.clientY + 'px';
+      burst.style.width = '10px';
+      burst.style.height = '10px';
+      burst.style.marginLeft = '-5px';
+      burst.style.marginTop = '-5px';
+      burst.style.borderRadius = '50%';
+      burst.style.border = '1px solid #4CE0A0';
+      burst.style.pointerEvents = 'none';
+      burst.style.zIndex = '9998';
+      burst.style.opacity = '0.9';
+      burst.style.transition = 'transform 0.5s ease, opacity 0.5s ease';
+      document.body.appendChild(burst);
+      requestAnimationFrame(function(){
+        burst.style.transform = 'scale(4.5)';
+        burst.style.opacity = '0';
+      });
+      setTimeout(function(){ burst.remove(); }, 550);
+    });
+  })();
+</script>
+
+</body>
+</html>
